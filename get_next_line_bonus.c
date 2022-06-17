@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phudyka <phudyka@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/26 15:07:28 by phudyka           #+#    #+#             */
-/*   Updated: 2022/06/17 10:03:55 by phudyka          ###   ########.fr       */
+/*   Created: 2022/06/17 10:04:37 by phudyka           #+#    #+#             */
+/*   Updated: 2022/06/17 10:22:14 by phudyka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,15 @@ char	*ft_read(int fd, char *temp)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*maxi;
+	static char	*maxi[12288];
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &maxi, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &maxi[fd], 0) < 0)
 		return (NULL);
-	maxi = ft_read(fd, maxi);
+	maxi[fd] = ft_read(fd, maxi[fd]);
 	if (!maxi)
 		return (NULL);
-	line = ft_cut(maxi);
-	maxi = ft_recut(maxi);
+	line = ft_cut(maxi[fd]);
+	maxi[fd] = ft_recut(maxi[fd]);
 	return (line);
 }
 
